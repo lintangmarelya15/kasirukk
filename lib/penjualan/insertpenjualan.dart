@@ -1,44 +1,46 @@
+import 'package:belajar_ukk/penjualan/indexpenjualan.dart';
 import 'package:flutter/material.dart';
-import 'package:belajar_ukk/home_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class AddPelanggan extends StatefulWidget {
-  const AddPelanggan({super.key});
+class AddTransaksi extends StatefulWidget {
+  const AddTransaksi({super.key});
 
   @override
-  State<AddPelanggan> createState() => _AddPelangganState();
+  State<AddTransaksi> createState() => _AddTransaksiState();
 }
 
-class _AddPelangganState extends State<AddPelanggan> {
-  final _nmplg = TextEditingController();
-  final _alamat = TextEditingController();
-  final _notlp = TextEditingController();
+class _AddTransaksiState extends State<AddTransaksi> {
+  final _tgl = TextEditingController();
+  final _hrg = TextEditingController();
+  final _pelanggan = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  Future<void> langgan() async {
+  Future<void> transaksi() async {
     if (_formKey.currentState!.validate()) {
-      final String NamaPelanggan = _nmplg.text;
-      final String Alamat = _alamat.text;
-      final String NomorTelepon = _notlp.text;
+      final String tanggalPenjualan = _tgl.text;
+      final double totalHarga = double.tryParse(_hrg.text) ?? 0;
+      final int pelangganId = int.tryParse(_pelanggan.text) ?? 0;
 
-      final response = await Supabase.instance.client.from('pelanggan').insert([
+      final response = await Supabase.instance.client.from('penjualan').insert([
         {
-          'NamaPelanggan': NamaPelanggan,
-          'Alamat': Alamat,
-          'NomorTelepon': NomorTelepon,
+          'TanggalPenjualan': tanggalPenjualan,
+          'TotalHarga': totalHarga,
+          'Pelangganid': pelangganId,
         }
       ]);
 
       // Cek jika ada error pada response
       if (response != null) {
+        // Tetap pindah ke halaman PenjualanTab meskipun terjadi error
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HomePage()),
+          MaterialPageRoute(builder: (context) => PenjualanTab()),
         );
       } else {
+        // Pindah ke halaman PenjualanTab jika transaksi berhasil
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HomePage()),
+          MaterialPageRoute(builder: (context) => PenjualanTab()),
         );
       }
     }
@@ -48,7 +50,7 @@ class _AddPelangganState extends State<AddPelanggan> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tambah Pelanggan'),
+        title: const Text('Tambah Penjualan'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -58,53 +60,61 @@ class _AddPelangganState extends State<AddPelanggan> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
-                controller: _nmplg,
+                controller: _tgl,
                 decoration: const InputDecoration(
-                  labelText: 'Nama Pelanggan',
+                  labelText: 'Tanggal Penjualan',
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Nama tidak boleh kosong';
+                    return 'Tanggal tidak boleh kosong';
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 16),
               TextFormField(
-                controller: _alamat,
+                controller: _hrg,
+                keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
-                  labelText: 'Alamat',
+                  labelText: 'Harga Penjualan',
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Alamat tidak boleh kosong';
+                    return 'Harga tidak boleh kosong';
+                  }
+                  if (double.tryParse(value) == null) {
+                    return 'Masukkan angka yang valid';
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 16),
               TextFormField(
-                controller:_notlp,
+                controller: _pelanggan,
+                keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
-                  labelText: 'Nomer Telepon',
+                  labelText: 'Pelanggan ID',
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Nomer tidak boleh kosong';
+                    return 'Pelanggan ID tidak boleh kosong';
+                  }
+                  if (int.tryParse(value) == null) {
+                    return 'Masukkan angka yang valid';
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: langgan,
+                onPressed: transaksi,
                 child: const Text('Tambah'),
               ),
             ],
-          ), 
+          ),
         ),
       ),
     );
