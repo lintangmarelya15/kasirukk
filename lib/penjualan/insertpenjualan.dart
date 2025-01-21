@@ -17,15 +17,15 @@ class _AddTransaksiState extends State<AddTransaksi> {
 
   Future<void> transaksi() async {
     if (_formKey.currentState!.validate()) {
-      final String tanggalPenjualan = _tgl.text;
-      final double totalHarga = double.tryParse(_hrg.text) ?? 0;
-      final int pelangganId = int.tryParse(_pelanggan.text) ?? 0;
+      final String TanggalPenjualan = _tgl.text;
+      final double TotalHarga = double.tryParse(_hrg.text) ?? 0;
+      final int PelangganID = int.tryParse(_pelanggan.text) ?? 0;
 
-      final response = await Supabase.instance.client.from('penjualan').insert([
+      final response = await Supabase.instance.client.from('PenjualanID').insert([
         {
-          'TanggalPenjualan': tanggalPenjualan,
-          'TotalHarga': totalHarga,
-          'Pelangganid': pelangganId,
+          'TanggalPenjualan': TanggalPenjualan,
+          'TotalHarga': TotalHarga,
+          'Pelangganid': PelangganID,
         }
       ]);
 

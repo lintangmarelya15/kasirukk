@@ -38,7 +38,10 @@ class _PenjualanTabState extends State<PenjualanTab> {
 
   Future<void> deleteBarang(int id) async {
     try {
-      await Supabase.instance.client.from('penjualan').delete().eq('id', id);
+      await Supabase.instance.client
+      .from('penjualan')
+      .delete()
+      .eq('PenjualanID', id);
       fetchPenjualan();
     } catch (e) {
       print('Error deleting barang: $e');

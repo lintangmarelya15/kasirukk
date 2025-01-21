@@ -35,9 +35,9 @@ class _EditPelangganState extends State<EditPelanggan> {
       _nmplg.text = data['NamaPelanggan'] ?? '';
       _alamat.text = data['Alamat'] ?? '';
       _notlp.text = data['NomorTelepon'] ?? '';
-    });
+    }); 
   }
-
+ 
 // EditPelanggan.dart
 Future<void> updatePelanggan() async {
   if (_formKey.currentState!.validate()) {

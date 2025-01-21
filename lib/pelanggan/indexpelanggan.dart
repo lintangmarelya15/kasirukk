@@ -69,6 +69,7 @@ class _PelangganTabState extends State<PelangganTab> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 12,
+                    childAspectRatio: 0.8
                   ),
                   padding: EdgeInsets.all(8),
                   itemCount: pelanggan.length,
@@ -154,7 +155,7 @@ class _PelangganTabState extends State<PelangganTab> {
                                             TextButton(
                                               onPressed: () {
                                                 deletePelanggan(
-                                                    langgan['Pelangganid']);
+                                                    langgan['PelangganID']);
                                                 Navigator.pop(context);
                                               },
                                               child: const Text('Hapus'),

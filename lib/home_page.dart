@@ -1,5 +1,7 @@
 import 'package:belajar_ukk/main.dart';
 import 'package:belajar_ukk/pelanggan/indexpelanggan.dart';
+import 'package:belajar_ukk/penjualan/indexpenjualan.dart';
+import 'package:belajar_ukk/produk/indexproduk.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -27,8 +29,8 @@ class _HomePageState extends State<HomePage> {
   // List of pages for each tab
   final List<Widget> _pages = [
     PelangganTab(),
-    ProdukPage(),
-    PenjualanPage(),
+    ProdukTab(),
+    PenjualanTab(), 
   ];
 
   void _onTabTapped(int index) {
