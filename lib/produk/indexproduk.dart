@@ -1,17 +1,18 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'hargaproduk.dart'; // Import halaman baru
 
-class ProdukTab extends StatefulWidget {
-  const ProdukTab({super.key});
+class Produk extends StatefulWidget {
+  const Produk({super.key});
 
   @override
-  State<ProdukTab> createState() => _ProdukTabState();
+  State<Produk> createState() => _ProdukTabState();
 }
 
-class _ProdukTabState extends State<ProdukTab> {
+class _ProdukTabState extends State<Produk> {
   List<Map<String, dynamic>> produk = [];
   bool isLoading = true;
 
@@ -39,10 +40,21 @@ class _ProdukTabState extends State<ProdukTab> {
     }
   }
 
+  Future<void> deleteProduk(int id) async {
+    try {
+      await Supabase.instance.client
+        .from('produk')
+        .delete()
+        .eq('ProdukID', id);
+      fetchProduk();
+    } catch (e) {
+      print('Error deleting produk: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: isLoading
           ? Center(
               child: LoadingAnimationWidget.twoRotatingArc(
@@ -86,7 +98,8 @@ class _ProdukTabState extends State<ProdukTab> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  prd['NamaProduk'] ?? 'Nama Tidak Tersedia',
+                                  prd['NamaProduk'] ?? 
+                                  'Nama Tidak Tersedia',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
@@ -102,6 +115,48 @@ class _ProdukTabState extends State<ProdukTab> {
                                   'Stok: ${prd['Stok'] ?? 'Tidak Tersedia'}',
                                   style: TextStyle(fontSize: 14),
                                 ),
+                                const Divider(),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(Icons.edit,
+                                      color: Colors.grey),
+                                    onPressed: () {
+                                      final ProdukID = Produk[
+                                        'ProdukID'] ??
+                                        0;
+                                      if (ProdukID != 0) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => 
+                                              EditProduk(
+                                                ProdukID:
+                                                  ProdukID)));
+                                        } else {
+                                          print('ID produktidak valid');
+                                        }
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(Icons.delete,
+                                      color: Colors.redAccent),
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: const Text('Hapus Produk'),
+                                              content: const Text(
+                                                'Apakah Anda yakin ingin menghapus produk ini?'),
+                                            )
+                                          }
+                                          
+                                      },
+                                    )
+                                  ],
+                                )
                               ],
                             ),
                           ),

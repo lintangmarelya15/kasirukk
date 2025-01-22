@@ -28,8 +28,8 @@ class _HomePageState extends State<HomePage> {
 
   // List of pages for each tab
   final List<Widget> _pages = [
-    PelangganTab(),
-    ProdukTab(),
+    PelangganCus(),
+    Produk(),
     PenjualanTab(), 
   ];
 
@@ -101,10 +101,14 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.shopping_cart),
             label: 'Penjualan',
           ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.drafts),
+          //   label: 'Detail Penjualan',
+          // ),
         ],
       ),
     );
-  }
+  } 
 }
 
 // Pages for each tab

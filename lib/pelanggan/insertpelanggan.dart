@@ -15,7 +15,7 @@ class _AddPelangganState extends State<AddPelanggan> {
   final _notlp = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  Future<void> langgan() async {
+  Future<void> planggan() async {
     if (_formKey.currentState!.validate()) {
       final String NamaPelanggan = _nmplg.text;
       final String Alamat = _alamat.text;
@@ -100,7 +100,7 @@ class _AddPelangganState extends State<AddPelanggan> {
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: langgan,
+                onPressed: planggan,
                 child: const Text('Tambah'),
               ),
             ],

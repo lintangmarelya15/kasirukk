@@ -4,12 +4,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'updatepelanggan.dart';
 
-class PelangganTab extends StatefulWidget {
+class PelangganCus extends StatefulWidget {
   @override
-  _PelangganTabState createState() => _PelangganTabState();
+  _PelangganCusState createState() => _PelangganCusState();
 }
 
-class _PelangganTabState extends State<PelangganTab> {
+class _PelangganCusState extends State<PelangganCus> {
   List<Map<String, dynamic>> pelanggan = [];
   bool isLoading = true;
 
@@ -146,7 +146,7 @@ class _PelangganTabState extends State<PelangganTab> {
                                           title: const Text('Hapus Pelanggan'),
                                           content: const Text(
                                               'Apakah Anda yakin ingin menghapus pelanggan ini?'),
-                                          actions: [
+                                          actions: [ //TERUSAN INDEX PRODUK NYONTO
                                             TextButton(
                                               onPressed: () =>
                                                   Navigator.pop(context),

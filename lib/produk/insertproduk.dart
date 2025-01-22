@@ -100,7 +100,7 @@ class _addprodukState extends State<addproduk> {
                 onPressed: produk, 
               child: Text('Tambah'))
             ],
-          ),
+          ), 
         ),
       ),
     );
