@@ -99,6 +99,12 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  const Icon(
+                    Icons.grass,
+                    color: Colors.white,
+                    size: 70,
+                  ),
+                  const SizedBox(height: 8),
                   const Text(
                     'Welcome Back ...',
                     style: TextStyle(
@@ -178,4 +184,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
- 

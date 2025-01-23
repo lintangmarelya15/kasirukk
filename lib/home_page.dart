@@ -63,14 +63,14 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Profile'),
-              onTap: () {
-                Navigator.pop(context);
-                // Navigate to Profile page
-              },
-            ),
+            // ListTile(
+            //   leading: Icon(Icons.person),
+            //   title: Text('Profile'),
+            //   onTap: () {
+            //     Navigator.pop(context);
+            //     // Navigate to Profile page
+            //   },
+            // ),
             ListTile(
               leading: Icon(Icons.arrow_back),
               title: Text('Logout'),

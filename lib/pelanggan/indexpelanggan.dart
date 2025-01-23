@@ -6,7 +6,7 @@ import 'updatepelanggan.dart';
 
 class PelangganCus extends StatefulWidget {
   @override
-  _PelangganCusState createState() => _PelangganCusState();
+  _PelangganCusState createState() => _PelangganCusState(); 
 }
 
 class _PelangganCusState extends State<PelangganCus> {
@@ -65,12 +65,7 @@ class _PelangganCusState extends State<PelangganCus> {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 )
-              : GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 12,
-                    childAspectRatio: 0.8
-                  ),
+              : ListView.builder(
                   padding: EdgeInsets.all(8),
                   itemCount: pelanggan.length,
                   itemBuilder: (context, index) {
@@ -85,15 +80,64 @@ class _PelangganCusState extends State<PelangganCus> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              langgan['NamaPelanggan'] ??
-                                  'Pelanggan tidak tersedia',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    langgan['NamaPelanggan'] ?? 'Pelanggan tidak tersedia',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.edit, color: Colors.blueAccent),
+                                  onPressed: () {
+                                    final PelangganID = langgan['PelangganID'] ?? 0;
+                                    if (PelangganID != 0) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EditPelanggan(PelangganID: PelangganID)));
+                                    } else {
+                                      print('ID pelanggan tidak valid');
+                                    }
+                                  },
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.delete, color: Colors.redAccent),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text('Hapus Pelanggan'),
+                                          content: const Text(
+                                              'Apakah Anda yakin ingin menghapus pelanggan ini?'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: const Text('Batal'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                deletePelanggan(langgan['PelangganID']);
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('Hapus'),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ],
                             ),
-                            SizedBox(height: 4),
+                            Divider(),
                             Text(
                               langgan['Alamat'] ?? 'Alamat Tidak tersedia',
                               style: TextStyle(
@@ -109,64 +153,6 @@ class _PelangganCusState extends State<PelangganCus> {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14,
                               ),
-                              textAlign: TextAlign.justify,
-                            ),
-                            const Divider(),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                IconButton(
-                                  icon: const Icon(Icons.edit,
-                                      color: Colors.blueAccent),
-                                  onPressed: () {
-                                    final PelangganID = langgan[
-                                            'PelangganID'] ??
-                                        0; // Pastikan ini sesuai dengan kolom di database
-                                    if (PelangganID != 0) {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  EditPelanggan(
-                                                      PelangganID:
-                                                          PelangganID)));
-                                    } else {
-                                      print('ID pelanggan tidak valid');
-                                    }
-                                  },
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.delete,
-                                      color: Colors.redAccent),
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: const Text('Hapus Pelanggan'),
-                                          content: const Text(
-                                              'Apakah Anda yakin ingin menghapus pelanggan ini?'),
-                                          actions: [ //TERUSAN INDEX PRODUK NYONTO
-                                            TextButton(
-                                              onPressed: () =>
-                                                  Navigator.pop(context),
-                                              child: const Text('Batal'),
-                                            ),
-                                            TextButton(
-                                              onPressed: () {
-                                                deletePelanggan(
-                                                    langgan['PelangganID']);
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text('Hapus'),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                              ],
                             ),
                           ],
                         ),

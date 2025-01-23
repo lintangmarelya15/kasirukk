@@ -38,15 +38,6 @@ class _ProdukDetailState extends State<ProdukDetail> {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.network(
-                  produk['Gambar'] ?? 'https://via.placeholder.com/150',
-                  height: 200,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
-              ),
               SizedBox(height: 16),
               Card(
                 shape: RoundedRectangleBorder(

@@ -1,9 +1,10 @@
 import 'dart:async';
-import 'dart:ffi';
+import 'package:belajar_ukk/produk/insertproduk.dart';
+import 'package:belajar_ukk/produk/keranjangproduk.dart';
+import 'package:belajar_ukk/produk/updateproduk.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'hargaproduk.dart'; // Import halaman baru
 
 class Produk extends StatefulWidget {
   const Produk({super.key});
@@ -33,7 +34,7 @@ class _ProdukTabState extends State<Produk> {
         isLoading = false;
       });
     } catch (e) {
-      print('error: $e');
+      print('Error fetching produk: $e');
       setState(() {
         isLoading = false;
       });
@@ -42,10 +43,7 @@ class _ProdukTabState extends State<Produk> {
 
   Future<void> deleteProduk(int id) async {
     try {
-      await Supabase.instance.client
-        .from('produk')
-        .delete()
-        .eq('ProdukID', id);
+      await Supabase.instance.client.from('produk').delete().eq('ProdukID', id);
       fetchProduk();
     } catch (e) {
       print('Error deleting produk: $e');
@@ -77,7 +75,6 @@ class _ProdukTabState extends State<Produk> {
 
                     return InkWell(
                       onTap: () {
-                        // Navigasi ke halaman detail produk
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -98,8 +95,7 @@ class _ProdukTabState extends State<Produk> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  prd['NamaProduk'] ?? 
-                                  'Nama Tidak Tersedia',
+                                  prd['NamaProduk'] ?? 'Nama Tidak Tersedia',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
@@ -121,38 +117,52 @@ class _ProdukTabState extends State<Produk> {
                                   children: [
                                     IconButton(
                                       icon: const Icon(Icons.edit,
-                                      color: Colors.grey),
-                                    onPressed: () {
-                                      final ProdukID = Produk[
-                                        'ProdukID'] ??
-                                        0;
-                                      if (ProdukID != 0) {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => 
-                                              EditProduk(
-                                                ProdukID:
-                                                  ProdukID)));
+                                          color: Colors.grey),
+                                      onPressed: () {
+                                        final ProdukID = prd['ProdukID'] ?? 0;
+                                        if (ProdukID != 0) {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Editproduk(
+                                                          ProdukID: ProdukID)));
                                         } else {
-                                          print('ID produktidak valid');
+                                          print('ID produk tidak valid');
                                         }
                                       },
                                     ),
                                     IconButton(
                                       icon: const Icon(Icons.delete,
-                                      color: Colors.redAccent),
+                                          color: Colors.redAccent),
                                       onPressed: () {
                                         showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: const Text('Hapus Produk'),
-                                              content: const Text(
-                                                'Apakah Anda yakin ingin menghapus produk ini?'),
-                                            )
-                                          }
-                                          
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                  title: const Text(
+                                                      'Hapus Produk'),
+                                                  content: const Text(
+                                                      'Apakah Anda yakin ingin menghapus produk ini?'),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              context),
+                                                      child:
+                                                          const Text('Batal'),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        deleteProduk(
+                                                            prd['ProdukID']);
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child:
+                                                          const Text('Hapus'),
+                                                    )
+                                                  ]);
+                                            });
                                       },
                                     )
                                   ],
@@ -165,6 +175,15 @@ class _ProdukTabState extends State<Produk> {
                     );
                   },
                 ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => addproduk()),
+          );
+        },
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
