@@ -1,7 +1,10 @@
+import 'package:belajar_ukk/detail/indexpenjualan.dart';
 import 'package:belajar_ukk/main.dart';
 import 'package:belajar_ukk/pelanggan/indexpelanggan.dart';
 import 'package:belajar_ukk/penjualan/indexpenjualan.dart';
 import 'package:belajar_ukk/produk/indexproduk.dart';
+import 'package:belajar_ukk/produk/keranjangproduk.dart';
+import 'package:belajar_ukk/registrasi/indexuser.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -31,6 +34,7 @@ class _HomePageState extends State<HomePage> {
     PelangganCus(),
     Produk(),
     PenjualanTab(), 
+    DetailPenjualan(),
   ];
 
   void _onTabTapped(int index) {
@@ -63,14 +67,14 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            // ListTile(
-            //   leading: Icon(Icons.person),
-            //   title: Text('Profile'),
-            //   onTap: () {
-            //     Navigator.pop(context);
-            //     // Navigate to Profile page
-            //   },
-            // ),
+            ListTile(
+              leading: Icon(Icons.dashboard),
+              title: Text('Registrasi'),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => UserReg()));
+                // Navigate to Profile page
+              },
+            ),
             ListTile(
               leading: Icon(Icons.arrow_back),
               title: Text('Logout'),
@@ -87,6 +91,8 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
+        selectedItemColor: Colors.green,
+        unselectedItemColor: Colors.grey,
         onTap: _onTabTapped,
         items: [
           BottomNavigationBarItem(
@@ -101,10 +107,10 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(Icons.shopping_cart),
             label: 'Penjualan',
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.drafts),
-          //   label: 'Detail Penjualan',
-          // ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.drafts),
+            label: 'Detail Penjualan',
+          ),
         ],
       ),
     );
