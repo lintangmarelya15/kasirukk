@@ -3,7 +3,6 @@ import 'package:belajar_ukk/main.dart';
 import 'package:belajar_ukk/pelanggan/indexpelanggan.dart';
 import 'package:belajar_ukk/penjualan/indexpenjualan.dart';
 import 'package:belajar_ukk/produk/indexproduk.dart';
-import 'package:belajar_ukk/produk/keranjangproduk.dart';
 import 'package:belajar_ukk/registrasi/indexuser.dart';
 import 'package:flutter/material.dart';
 
@@ -33,8 +32,9 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     PelangganCus(),
     Produk(),
-    PenjualanTab(), 
+    PenjualanIndex(), 
     DetailPenjualan(),
+  
   ];
 
   void _onTabTapped(int index) {

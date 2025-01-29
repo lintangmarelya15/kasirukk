@@ -1,6 +1,6 @@
 import 'dart:async';
+import 'package:belajar_ukk/penjualan/keranjang.dart';
 import 'package:belajar_ukk/produk/insertproduk.dart';
-import 'package:belajar_ukk/produk/keranjangproduk.dart';
 import 'package:belajar_ukk/produk/updateproduk.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -78,7 +78,7 @@ class _ProdukTabState extends State<Produk> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ProdukDetail(produk: prd),
+                            builder: (context) => ProdukDetail(),
                           ),
                         );
                       },

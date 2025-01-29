@@ -34,13 +34,13 @@ class _AddTransaksiState extends State<AddTransaksi> {
         // Tetap pindah ke halaman PenjualanTab meskipun terjadi error
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => PenjualanTab()),
+          MaterialPageRoute(builder: (context) => PenjualanIndex()),
         );
       } else {
         // Pindah ke halaman PenjualanTab jika transaksi berhasil
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => PenjualanTab()),
+          MaterialPageRoute(builder: (context) => PenjualanIndex()),
         );
       }
     }

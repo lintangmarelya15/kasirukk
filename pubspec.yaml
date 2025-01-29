@@ -38,6 +38,9 @@ dependencies:
   font_awesome_flutter: ^10.8.0
   supabase_flutter: ^2.8.3
   loading_animation_widget: ^1.3.0
+  dropdown_textfield: ^1.2.0
+  
+
 
 
 dev_dependencies:
