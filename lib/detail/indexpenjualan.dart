@@ -1,7 +1,7 @@
+import 'package:belajar_ukk/home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DetailPenjualan extends StatefulWidget {
   const DetailPenjualan({super.key});
@@ -12,86 +12,98 @@ class DetailPenjualan extends StatefulWidget {
 
 class _DetailPenjualanState extends State<DetailPenjualan> {
   List<Map<String, dynamic>> detailll = [];
-  bool isLoading = false; 
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    fetchdetail();
+    fetchDetail();
   }
 
-  Future<void> fetchdetail() async{
-    setState(() {
-      isLoading = true;
-    });
+  Future<void> fetchDetail() async {
+    setState(() => isLoading = true);
     try {
       final response = await Supabase.instance.client.from('detailpenjualan').select();
-      setState(() {
-        detailll = List<Map<String, dynamic>>.from(response);
-        isLoading = false;
-      });
+      setState(() => detailll = List<Map<String, dynamic>>.from(response));
     } catch (e) {
-      print('error: $e');
+      print('Error: $e');
+    } finally {
+      setState(() => isLoading = false);
+    }
+  }
+
+  Future<void> transaksi(int PelangganID, int Subtotal) async {
+    try {
+      await Supabase.instance.client.from('penjualan').insert({
+        'PelangganID': PelangganID,
+        'TotalHarga': Subtotal,
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Pesanan berhasil disimpan!')),
+      );
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+    } catch (e) {
+      print('Error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Terjadi kesalahan saat menyimpan pesanan')),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Detail Penjualan'),
+        centerTitle: true,
+      ),
       body: isLoading
-      ? Center(child: LoadingAnimationWidget.twoRotatingArc(color: Colors.grey, size: 30))
-      : detailll.isEmpty
-      ? Center(
-        child: Text('Detail penjualan tidak ada',
-        style: TextStyle(fontSize: 18),
-        ),
-      )
-      : ListView.builder(
-        itemCount: detailll.length,  
-        itemBuilder: (context, index){
-          final detail = detailll[index];  // Mengakses data berdasarkan index
-          return Card(
-            elevation: 4,
-            margin: EdgeInsets.symmetric(vertical: 8),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12)
-            ),
-            child: SizedBox(
-             
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,  // Merapikan teks
-                  children: [
-                    Row(
-                      children: [
-                        Text('Detail ID: ${detail['Detailid']?.toString() ?? 'tidak tersedia'}',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(width: 28),
-                    Text('Penjualan ID: ${detail['Penjualanid']?.toString() ?? 'tidak tersedia'}',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    SizedBox(width: 28),
-                    Text('Produk ID: ${detail['Produkid']?.toString() ?? 'tidak tersedia'}',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    SizedBox(width: 28),
-                    Text('Jumlah Produk: ${detail['JumlahProduk']?.toString() ?? 'tidak tersedia'}',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    SizedBox(width: 28),
-                    Text('Subtotal: ${detail['Subtotal']?.toString() ?? 'tidak tersedia'}',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                      ],
-                    )
-                  ],
+          ? Center(
+              child: LoadingAnimationWidget.fourRotatingDots(
+                color: Colors.blue,
+                size: 40,
+              ),
+            )
+          : detailll.isEmpty
+              ? const Center(
+                  child: Text(
+                    'Tidak ada detail penjualan.',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                )
+              : ListView.builder(
+                  padding: const EdgeInsets.all(12),
+                  itemCount: detailll.length,
+                  itemBuilder: (context, index) {
+                    final detail = detailll[index];
+                    final int Subtotal = int.tryParse(detail['Subtotal'].toString()) ?? 0;
+                    return Card(
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.all(16),
+                        title: Text(
+                          'Produk ID: ${detail['ProdukID'] ?? '-'}',
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Jumlah: ${detail['JumlahProduk'] ?? '-'}'),
+                            Text('Subtotal: Rp. ${detail['Subtotal'] ?? '-'}'),
+                          ],
+                        ),
+                        trailing: ElevatedButton(
+                          onPressed: () => transaksi(1, Subtotal),
+                          child: const Text('Pesan'),
+                        ),
+                      ),
+                    );
+                  },
                 ),
-              )
-            ),
-          );
-        },
+      floatingActionButton: FloatingActionButton(
+        onPressed: fetchDetail,
+        child: const Icon(Icons.refresh),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:belajar_ukk/penjualan/indexpenjualan.dart';
 import 'package:belajar_ukk/penjualan/keranjang.dart';
 import 'package:belajar_ukk/produk/insertproduk.dart';
 import 'package:belajar_ukk/produk/updateproduk.dart';
@@ -74,13 +75,16 @@ class _ProdukTabState extends State<Produk> {
                     final prd = produk[index];
 
                     return InkWell(
-                      onTap: () {
-                        Navigator.push(
+                      onTap: () async{
+                       var result= await Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => ProdukDetail(),
                           ),
                         );
+                        if (result==true) {
+                          
+                        }
                       },
                       child: Card(
                         elevation: 4,

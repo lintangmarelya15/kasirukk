@@ -23,9 +23,9 @@ class _UserInsertState extends State<UserInsert> {
         final role = _roleController.text.trim();
 
         final response = await Supabase.instance.client.from('user').insert({
-          'Username': username,
-          'Password': password,
-          'Role': role,
+          'username': username,
+          'password': password,
+          'role': role,
         });
 
         if (response == null) {

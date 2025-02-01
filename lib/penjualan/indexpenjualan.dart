@@ -28,7 +28,7 @@ class _PenjualanIndexState extends State<PenjualanIndex> {
         isLoading = false;
       });
     }
-  }
+  }  
 
   Future<void> deletePenjualan(int id) async {
     try {

@@ -23,7 +23,10 @@ class _UserRegState extends State<UserReg> {
 
   Future<void> deleteuser(int id) async {
     try {
-      await Supabase.instance.client.from('user').delete().eq('Userid', id);
+      await Supabase.instance.client
+      .from('user')
+      .delete()
+      .eq('id', id);
       fetchuser();
     } catch (e) {
       print('error: $e');
@@ -52,7 +55,7 @@ class _UserRegState extends State<UserReg> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('User List'),
+        title: const Text('List User'),
       ),
       body: isLoading
           ? Center(
@@ -100,9 +103,9 @@ class _UserRegState extends State<UserReg> {
                                   horizontal: 16, vertical: 12),
                               child: Row(
                                 children: [
-                                  Expanded(flex: 2, child: Text(userdata['Username'] ?? '')),
-                                  Expanded(flex: 2, child: Text(userdata['Password'] ?? '')),
-                                  Expanded(flex: 1, child: Text(userdata['Role'] ?? '')),
+                                  Expanded(flex: 2, child: Text(userdata['username'] ?? '')),
+                                  Expanded(flex: 2, child: Text(userdata['password'] ?? '')),
+                                  Expanded(flex: 1, child: Text(userdata['role'] ?? '')),
                                   Expanded(
                                     flex: 1,
                                     child: Row(
@@ -110,13 +113,12 @@ class _UserRegState extends State<UserReg> {
                                       children: [
                                         IconButton(
                                           onPressed: () {
-                                            final Userid = userdata['Userid'] ?? 0;
-                                            if (Userid != 0) {
+                                            final id = userdata['id'] ?? 0;
+                                            if (id != 0) {
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          UpdateUser(Userid: Userid)));
+                                                      builder: (context) => UpdateUser(id: id)));
                                             }
                                           },
                                           icon: const Icon(Icons.edit, color: Colors.blue),
@@ -139,7 +141,7 @@ class _UserRegState extends State<UserReg> {
                                                       TextButton(
                                                           onPressed: () {
                                                             Navigator.pop(context);
-                                                            deleteuser(userdata['Userid']);
+                                                            deleteuser(userdata['id']);
                                                           },
                                                           child: const Text('Hapus'))
                                                     ],

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UpdateUser extends StatefulWidget {
-  final int Userid;
+  final int id;
 
-  const UpdateUser({super.key, required this.Userid});
+  const UpdateUser({super.key, required this.id});
 
   @override
   State<UpdateUser> createState() => _UpdateUserState();
@@ -29,12 +29,12 @@ class _UpdateUserState extends State<UpdateUser> {
       final response = await Supabase.instance.client
           .from('user')
           .select()
-          .eq('Userid', widget.Userid)
+          .eq('id', widget.id)
           .single();
       setState(() {
-        _user.text = response['Username'] ?? '';
-        _password.text = response['Password']?.toString() ?? '';
-        _role.text = response['Role'] ?? '';
+        _user.text = response['username'] ?? '';
+        _password.text = response['password']?.toString() ?? '';
+        _role.text = response['role'] ?? '';
       });
     } catch (e) {
       print('Error: $e');
@@ -46,10 +46,10 @@ class _UpdateUserState extends State<UpdateUser> {
     if (_formKey.currentState!.validate()) {
       try {
         await Supabase.instance.client.from('user').update({
-          'Username': _user.text,
-          'Password': _password.text,
-          'Role': _role.text
-        }).eq('Userid', widget.Userid);
+          'username': _user.text,
+          'password': _password.text,
+          'role': _role.text
+        }).eq('id', widget.id);
 
         // Navigate back to UserTab
         Navigator.pushReplacement(
