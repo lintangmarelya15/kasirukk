@@ -20,7 +20,7 @@ class _AddPelangganState extends State<AddPelanggan> {
       final String NamaPelanggan = _nmplg.text;
       final String Alamat = _alamat.text;
       final String NomorTelepon = _notlp.text;
-
+      try {
       final response = await Supabase.instance.client.from('pelanggan').insert([
         {
           'NamaPelanggan': NamaPelanggan,
@@ -30,7 +30,7 @@ class _AddPelangganState extends State<AddPelanggan> {
       ]);
 
       // Cek jika ada error pada response
-      if (response != null) {
+      if (response == null) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomePage()),
@@ -40,6 +40,15 @@ class _AddPelangganState extends State<AddPelanggan> {
           context,
           MaterialPageRoute(builder: (context) => HomePage()),
         );
+      }
+      } catch (error) {
+        if (error is PostgrestException && error.code == '23505') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Nama pelanggan ini sudah terdaftar'),
+            ),
+          );
+        }
       }
     }
   }
@@ -65,7 +74,7 @@ class _AddPelangganState extends State<AddPelanggan> {
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Nama tidak boleh kosong';
+                    return 'Nama pelanggan tidak boleh kosong';
                   }
                   return null;
                 },
@@ -94,6 +103,10 @@ class _AddPelangganState extends State<AddPelanggan> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Nomer tidak boleh kosong';
+                  }else {
+                      if (double.tryParse(value) == null) {
+                        return 'Harga harus berupa angka';
+                      }
                   }
                   return null;
                 },

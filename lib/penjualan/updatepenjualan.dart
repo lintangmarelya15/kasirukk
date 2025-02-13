@@ -30,13 +30,13 @@ class _PenjualanUpdateState extends State<PenjualanUpdate> {
       final data = await Supabase.instance.client
           .from('penjualan')
           .select()
-          .eq('Pelangganid', widget.PelangganID)
+          .eq('PelangganID', widget.PelangganID)
           .single();
 
       setState(() {
         _tglController.text = data['TanggalPenjualan'] ?? '';
         _hrgController.text = data['Harga']?.toString() ?? '';
-        _pelangganController.text = data['Pelangganid'] ?? '';
+        _pelangganController.text = data['PelangganID'] ?? '';
       });
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -44,7 +44,7 @@ class _PenjualanUpdateState extends State<PenjualanUpdate> {
       );
     }
   }
-
+ 
   Future<void> _updatePenjualan() async {
     if (_formKey.currentState!.validate()) {
       try {
@@ -52,7 +52,7 @@ class _PenjualanUpdateState extends State<PenjualanUpdate> {
           'TanggalPenjualan': _tglController.text,
           'Harga': double.tryParse(_hrgController.text) ?? 0,
           'Pelangganid': _pelangganController.text,
-        }).eq('Pelangganid', widget.PelangganID);
+        }).eq('PelangganID', widget.PelangganID);
 
         Navigator.pushAndRemoveUntil(
           context,

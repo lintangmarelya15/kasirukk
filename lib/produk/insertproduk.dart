@@ -1,5 +1,6 @@
 import 'package:belajar_ukk/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class addproduk extends StatefulWidget {
@@ -68,14 +69,19 @@ class _addprodukState extends State<addproduk> {
               SizedBox(height: 16),
               TextFormField(
                 controller: _harga,
-                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   labelText: 'Harga',
                   border:OutlineInputBorder(),
                 ),
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 validator: (value) {
                   if (value == null || value.isEmpty){
                   return 'tidak boleh kosong';
+                  } else {
+                      if (double.tryParse(value) == null) {
+                        return 'Harga harus berupa angka';
+                      }
                   }
                   return null;
                 },
@@ -83,14 +89,19 @@ class _addprodukState extends State<addproduk> {
               SizedBox(height: 16),
               TextFormField(
                 controller: _stok,
-                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   labelText: 'Stok',
                   border: OutlineInputBorder(),
                 ),
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'tidak boleh kosong';
+                  } else {
+                      if (double.tryParse(value) == null) {
+                        return 'Harga harus berupa angka';
+                      }
                   }
                   return null;
                 },

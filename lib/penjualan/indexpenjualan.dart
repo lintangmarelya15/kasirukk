@@ -105,9 +105,8 @@ class _PenjualanIndexState extends State<PenjualanIndex> {
             fetchPenjualan();
           }
         },
-        child: Icon(
-          Icons.add,
-        ),
+        backgroundColor: Colors.green[400],
+        child: Icon(Icons.add,),
       ),
     );
   }

@@ -30,8 +30,8 @@ class _HomePageState extends State<HomePage> {
 
   // List of pages for each tab
   final List<Widget> _pages = [
-    PelangganCus(),
     Produk(),
+    PelangganCus(),
     PenjualanIndex(), 
     DetailPenjualan(),
   
@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Informasi Kasir'),
         centerTitle: true,
-        backgroundColor: Colors.green[200],
+        backgroundColor: Colors.white,
       ),
       drawer: Drawer(
         child: ListView(
@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.green[200],
+                color: Colors.green[400],
               ),
               child: Text(
                 'Menu',
@@ -91,17 +91,17 @@ class _HomePageState extends State<HomePage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.green,
+        selectedItemColor: Colors.green[400],
         unselectedItemColor: Colors.grey,
         onTap: _onTabTapped,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.group),
-            label: 'Customer',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.inventory),
             label: 'Produk',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.group),
+            label: 'Pelanggan',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart),
